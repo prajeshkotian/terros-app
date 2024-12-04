@@ -67,6 +67,45 @@ export default function Chessboard() {
         setPlayer(newPlayer)
     },[boardState])
 
+
+    const validateMove = (selectedPiece, targetRow, targetCol, boardState) => {
+        const { piece, row, col, player } = selectedPiece;
+        const rowDiff = Math.abs(targetRow - row);
+        const colDiff = Math.abs(targetCol - col);
+      
+        switch (piece) {
+          case '\u265F': // Black pawn
+          case '\u2659': // White pawn
+            if (player === 'player1') {
+              // White pawn rules
+              if (
+                (rowDiff === 1 && colDiff === 0 && boardState[targetRow][targetCol].player === null) || //to  Move forward
+                (rowDiff === 1 && colDiff === 1 && boardState[targetRow][targetCol].player === 'player2') // to Capture diagonally
+              ) {
+                return true;
+              }
+            } else {
+              // Black pawn rules
+              if (
+                (rowDiff === 1 && colDiff === 0 && boardState[targetRow][targetCol].player === null) || //  to Move forward
+                (rowDiff === 1 && colDiff === 1 && boardState[targetRow][targetCol].player === 'player1') //to Capture diagonally
+              ) {
+                return true;
+              }
+            }
+            return false;
+      
+          case '\u265A': //  King
+          case '\u2654': 
+            return rowDiff <= 1 && colDiff <= 1;
+      
+          default:
+            return false;
+        }
+      };
+
+      
+
     const onPieceSelect=(row, col)=>{
 
         
@@ -82,6 +121,11 @@ export default function Chessboard() {
             }
             setSeletedPiece(obj)
         }else{ // if piece is already selected we are moving to new position on board
+
+            if (!validateMove(selectedPiece, row, col, boardState)) {
+                message.error('Invalid move!');
+                return;
+              }
             const newBoard=[...boardState]
             const existingPiece={...newBoard[row][col]}//get the previous piece at the position
             console.log(existingPiece)
