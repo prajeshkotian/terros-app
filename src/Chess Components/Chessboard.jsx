@@ -100,7 +100,7 @@ export default function Chessboard() {
             return rowDiff <= 1 && colDiff <= 1;
       
           default:
-            return false;
+            return true;
         }
       };
 
