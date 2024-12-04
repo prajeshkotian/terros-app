@@ -1,7 +1,7 @@
-import React from 'react'
+import React,{memo} from 'react'
 import './Chessboard.css'
 
-export default function Square({piece, isBlack, player, row, col, onPieceSelect, selectedPiece, ...props}) {
+ const Square=memo(({piece, isBlack, player, row, col, onPieceSelect, selectedPiece, ...props})=> {
   return (
     <div className={`square ${isBlack ? 'black' : 'white'}`} onClick={()=>onPieceSelect(row, col)}>
         <span className={`${
@@ -15,4 +15,6 @@ export default function Square({piece, isBlack, player, row, col, onPieceSelect,
         </span>
     </div>
   )
-}
+});
+
+export default Square
