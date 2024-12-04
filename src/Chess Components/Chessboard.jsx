@@ -84,13 +84,20 @@ export default function Chessboard() {
         }else{ // if piece is already selected we are moving to new position on board
             const newBoard=[...boardState]
             const existingPiece={...newBoard[row][col]}//get the previous piece at the position
-            newBoard[row][col]={...boardState[selectedPiece?.row][selectedPiece?.col]}
-            newBoard[selectedPiece?.row][selectedPiece?.col]={ piece: '', player: null }
-            if(existingPiece && existingPiece.player !== player && existingPiece.piece === '\u265A'){
-                message.success(player+' Wins the game')
+            console.log(existingPiece)
+            if(existingPiece.player !== player){
+                newBoard[row][col]={...boardState[selectedPiece?.row][selectedPiece?.col]}
+                newBoard[selectedPiece?.row][selectedPiece?.col]={ piece: '', player: null }
+                if(existingPiece && ((existingPiece.piece === '\u265A' && player === 'player1') || (existingPiece.piece === '\u2654' && player === 'player2'))){
+                    message.success(player+' Wins the game')
+                }
+                setSeletedPiece(null)
+                setBoardState(newBoard)
+            }else{
+                message.warning("A pawn already exists of same color")
+                return
             }
-            setSeletedPiece(null)
-            setBoardState(newBoard)
+            
         }
         
     }
