@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Chessboard.css'
 
 import Square from './Square'
-import { message } from 'antd';
+import { Button, message } from 'antd';
 
 
 const initialBoard = [
@@ -128,7 +128,6 @@ export default function Chessboard() {
               }
             const newBoard=[...boardState]
             const existingPiece={...newBoard[row][col]}//get the previous piece at the position
-            console.log(existingPiece)
             if(existingPiece.player !== player){
                 newBoard[row][col]={...boardState[selectedPiece?.row][selectedPiece?.col]}
                 newBoard[selectedPiece?.row][selectedPiece?.col]={ piece: '', player: null }
@@ -146,6 +145,10 @@ export default function Chessboard() {
         
     }
 
+    const onUnselectPawn=()=>{
+        setSeletedPiece(null)
+    }
+
 
     return (
         <>
@@ -161,6 +164,9 @@ export default function Chessboard() {
               ))}
             </div>
           ))}
+        </div>
+        <div className='player info'>
+            <Button onClick={onUnselectPawn}>{'Unselect Pawn'}</Button>
         </div>
         </>
       );
